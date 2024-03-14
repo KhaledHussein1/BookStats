@@ -1,46 +1,46 @@
 from flask import request, jsonify
-from config import app,db
-from models import Book
+from config import app, db
+from models import Text
 
-@app.route("/books", methods=["GET"])
-def get_books():
-    books = Book.query.all()
-    json_books = list(map(lambda x:x.to_json(), books))
-    return jsonify({"books": json_books})
+@app.route("/texts", methods=["GET"])
+def get_texts():
+    texts = Text.query.all()
+    json_texts = list(map(lambda x:x.to_json(), texts))
+    return jsonify({"texts": json_texts})
 
-@app.route("/create_book", methods=["POST"])
-def create_contact():
+@app.route("/create_text", methods=["POST"])
+def create_text():
     title = request.json.get("title")
-    content = request.json.get("content")
+    text = request.json.get("text")
 
-    if not title or not content:
+    if not title or not text:
         return (
-            jsonify({"message": "You must include a title and content."}),
+            jsonify({"message": "You must include a title and text."}),
             400,
         )
     
-    new_book = Book(title=title, content=content)
+    new_text = Text(title=title, text=text)
     try:
-        db.session.add(new_book)
+        db.session.add(new_text)
         db.session.commit()
     except Exception as e:
         return jsonify({"message": str(e)}), 400
-    return jsonify({"message": "Book created!"}), 201
+    return jsonify({"message": "Text created!"}), 201
 
-@app.route("/update_book/<int:book_id>", methods=["PATCH"])
-def update_book(book_id):
-    book = Book.query.get(book_id)
+@app.route("/update_text/<int:text_id>", methods=["PATCH"])
+def update_text(text_id):
+    text = Text.query.get(text_id)
 
-    if not book:
-        return jsonify({"message": "Book not found."}), 404
+    if not text:
+        return jsonify({"message": "Text not found."}), 404
     
     data = request.json
-    book.title = data.get("title", book.title)
-    book.content = data.get("content", book.content)
+    text.title = data.get("title", text.title)
+    text.text = data.get("text", text.text)
 
     db.session.commit()
 
-    return jsonify({"message":"Book updated."}), 200
+    return jsonify({"message":"Text updated."}), 200
 
 
 if __name__ == "__main__":
