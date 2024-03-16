@@ -42,6 +42,17 @@ def update_text(text_id):
 
     return jsonify({"message":"Text updated."}), 200
 
+@app.route("/delete_text/<int:user_id>", methods=["DELETE"])
+def delete_text(user_id):
+    text = Text.query.get(user_id)
+
+    if not text:
+        return jsonify({"message": "Text not found"}), 404
+
+    db.session.delete(text)
+    db.session.commit()
+
+    return jsonify({"message": "Text deleted!"}), 200
 
 if __name__ == "__main__":
     with app.app_context():
