@@ -4,7 +4,9 @@ import TextForm from './TextForm'
 import './App.css'
 
 function App() {
-  const [texts, setTexts] = useState([{"title": "Frankenstein", "text": "once upon a time.", "id":1}])
+  const [texts, setTexts] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [currentText, setCurrentText] = useState({})
 
   useEffect(() => {
     fetchTexts()
@@ -17,10 +19,37 @@ function App() {
     console.log(data.texts)
   }
 
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setCurrentText({})
+  }
+
+  const openCreateModal = () => {
+    if (!isModalOpen) setIsModalOpen(true)
+  }
+
+  const openEditModal = (text) => {
+    if (isModalOpen) return
+    setCurrentText(text)
+    setIsModalOpen(true)
+  }
+
+  const onUpdate = () => {
+    closeModal()
+    fetchTexts()
+  }
+
   return (
     <>
-      <TextList texts={texts}/>
-      <TextForm />
+      <TextList texts={texts} updateText={openEditModal} updateCallback={onUpdate}/>
+      <button onClick={openCreateModal}>Create New TEXT</button>
+      { isModalOpen && <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <TextForm existingText={currentText} updateCallback={onUpdate}/>
+          </div>
+        </div>
+        }
     </>
   );
 }

@@ -1,8 +1,10 @@
 import {useState} from "react"
 
-const TextForm = ({}) => {
-    const [title, setTitle] = useState("")
-    const [text, setText] = useState("")
+const TextForm = ({ existingText = {}, updateCallback}) => {
+    const [title, setTitle] = useState(existingText.title || "")
+    const [text, setText] = useState(existingText.text || "")
+
+    const updating = Object.entries(existingText).length !== 0
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -11,9 +13,9 @@ const TextForm = ({}) => {
             title,
             text
         }
-        const url = "http://127.0.0.1:5000/create_text"
+        const url = "http://127.0.0.1:5000/" + (updating ? `update_text/${existingText.id}`:"create_text")
         const options = {
-            method: "POST",
+            method: updating ? "PATCH" : "POST",
             headers: {
                 "Content-Type":"application/json"
             },
@@ -24,7 +26,7 @@ const TextForm = ({}) => {
             const data = await response.json()
             alert(data.message)
         } else {
-            //successful
+            updateCallback()
         }
     }
 
@@ -47,7 +49,7 @@ const TextForm = ({}) => {
                 onChange={(e) => setText(e.target.value)}
             />
         </div>
-        <button type="submit">Create Text</button>
+        <button type="submit">{updating ? "Update" : "Create"}</button>
     </form>
 }
 
