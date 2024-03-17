@@ -1,6 +1,7 @@
 import { useState, useEffect} from 'react'
-import TextList from './TextList'
-import TextForm from './TextForm'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AnalysisResults from "./AnalysisResults";
+import Home from './Home';
 import './App.css'
 
 function App() {
@@ -40,17 +41,15 @@ function App() {
   }
 
   return (
-    <>
-      <TextList texts={texts} updateText={openEditModal} updateCallback={onUpdate}/>
-      <button onClick={openCreateModal}>Create New TEXT</button>
-      { isModalOpen && <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={closeModal}>&times;</span>
-            <TextForm existingText={currentText} updateCallback={onUpdate}/>
-          </div>
-        </div>
-        }
-    </>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<Home texts={texts} openEditModal={openEditModal} openCreateModal={openCreateModal} isModalOpen={isModalOpen} currentText={currentText} onUpdate={onUpdate} />}
+        />
+        <Route path="/analysis-results" element={<AnalysisResults />} />
+      </Routes>
+    </Router>
   );
 }
 

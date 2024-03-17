@@ -1,6 +1,62 @@
 from flask import request, jsonify
 from config import app, db
 from models import Text
+from collections import Counter
+import re
+from nltk.corpus import stopwords
+
+
+# Function to find the most frequent words excluding stopwords
+def most_freq_words(text):
+    # Tokenize the text into words
+    words = re.findall(r'\b\w+\b', text.lower())
+    
+    # Filter out stopwords
+    stop_words = set(stopwords.words('english'))
+    words = [word for word in words if word not in stop_words]
+    
+    # Count the frequency of each word
+    word_freq = Counter(words)
+    
+    # Get the top 20 most common words and their frequencies
+    top_words_with_freq = word_freq.most_common(20)
+    
+    return top_words_with_freq
+
+def sentiment_analysis(text):
+    #overall sentiment
+    #neg words
+    #pos words
+    return 0
+
+def outlier_sentence(text):
+    return 0
+
+def readability(text):
+    return 0
+
+def word_count(text):
+    words = text.split()
+    return len(words)
+
+def sentence_length_distribution(text):
+    return 0
+
+@app.route("/analysis/<int:text_id>", methods=["POST"])
+def analyze_text(text_id):
+    text = Text.query.get(text_id)
+
+    if not text:
+        return jsonify({"message": "Text not found."}), 404
+    
+    # Count words
+    count_result = word_count(text.text)
+
+    # Find most frequent words
+    frequent_words = most_freq_words(text.text)
+
+    return jsonify({"word_count": count_result,
+                    "most_frequent_words": frequent_words})
 
 @app.route("/texts", methods=["GET"])
 def get_texts():
