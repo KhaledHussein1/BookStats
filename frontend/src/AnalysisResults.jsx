@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import AnimatedCountUp from "./AnimatedCountUp";
+import BarChartWordFreq from "./BarChartWordFreq";
 
 const AnalysisResults = () => {
     const location = useLocation();
@@ -8,6 +9,9 @@ const AnalysisResults = () => {
     const frequentWords = location.state?.frequentWords;
     console.log("Word Count received:", wordCount);
     console.log("Frequent Words received:", frequentWords);
+
+    // Transform frequentWords data to match the expected format
+    const formattedData = frequentWords.map(([text, frequency]) => ({ text, frequency }));
 
     return (
         <div>
@@ -22,6 +26,9 @@ const AnalysisResults = () => {
                     <li key={index}>{wordData[0]}: {wordData[1]}</li>
                 ))}
             </ul>
+            {/* Render WordFrequencyBarChart component */}
+            <h3>Word Frequency Bar Chart</h3>
+            {frequentWords && <BarChartWordFreq frequentWords={formattedData} />}
         </div>
     );
 };
