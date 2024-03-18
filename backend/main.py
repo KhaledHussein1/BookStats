@@ -1,10 +1,13 @@
 from flask import request, jsonify
 from config import app, db
 from models import Text
+
 from collections import Counter
 import re
 from nltk.corpus import stopwords
 
+import nltk
+import matplotlib.pyplot as plt
 
 # Function to find the most frequent words excluding stopwords
 def most_freq_words(text):
@@ -23,6 +26,22 @@ def most_freq_words(text):
     
     return top_words_with_freq
 
+def word_count(text):
+    words = text.split()
+    return len(words)
+
+def sentence_length_distribution(text):
+    # Download the punkt tokenizer
+    nltk.download('punkt')
+
+    # Tokenize the text into sentences
+    sentences = nltk.sent_tokenize(text)
+
+    # Calculate the length of each sentence
+    sentence_lengths = [len(nltk.word_tokenize(sentence)) for sentence in sentences]
+    
+    return sentence_lengths
+
 def sentiment_analysis(text):
     #overall sentiment
     #neg words
@@ -33,13 +52,6 @@ def outlier_sentence(text):
     return 0
 
 def readability(text):
-    return 0
-
-def word_count(text):
-    words = text.split()
-    return len(words)
-
-def sentence_length_distribution(text):
     return 0
 
 @app.route("/analysis/<int:text_id>", methods=["POST"])
@@ -55,8 +67,12 @@ def analyze_text(text_id):
     # Find most frequent words
     frequent_words = most_freq_words(text.text)
 
-    return jsonify({"word_count": count_result,
-                    "most_frequent_words": frequent_words})
+    sentence_len_dist = sentence_length_distribution(text.text)
+    
+    return jsonify({
+        "word_count": count_result,
+        "most_frequent_words": frequent_words,
+        "sentence_length_distribution": sentence_len_dist})
 
 @app.route("/texts", methods=["GET"])
 def get_texts():
