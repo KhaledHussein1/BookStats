@@ -1,8 +1,10 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import { Grid, Paper, Typography } from "@mui/material";
 import AnimatedCountUp from "./AnimatedCountUp";
 import BarChartWordFreq from "./BarChartWordFreq";
 import BarChartSentenceDistribution from "./BarChartSentenceDistribution";
+import SentimentBarChart from './SentimentBarChart';
 
 const AnalysisResults = () => {
     const location = useLocation();
@@ -10,9 +12,7 @@ const AnalysisResults = () => {
     const wordCount = location.state?.wordCount;
     const frequentWords = location.state?.frequentWords;
     const sentenceDistribution = location.state?.sentenceDistribution;
-
-    console.log("Word Count received:", wordCount);
-    console.log("Frequent Words received:", frequentWords);
+    const sentimentComposition = location.state?.sentimentComposition;
 
     // Transform frequentWords data to match the expected format
     const freqWordformattedData = frequentWords.map(([text, frequency]) => ({ text, frequency }));
@@ -29,17 +29,44 @@ const AnalysisResults = () => {
         frequency: sentenceLengths[length]
     }));
 
+    // Transform the data into the expected format
+    const sentimentCompositionFormattedData = {
+        name: 'Sentiment Composition',
+        negative: sentimentComposition.neg,
+        positive: sentimentComposition.pos,
+        neutral: sentimentComposition.neu,
+    };
+
     return (
         <div>
-            <h2>Analysis Results</h2>
+            <Typography variant="h2" gutterBottom>LexiLytics</Typography>
             {/* Animated count-up display */}
-            <p>Word Count: <AnimatedCountUp end={wordCount} /></p>
-            {/* Render WordFrequencyBarChart component */}
-            <h3>Word Frequency Bar Chart</h3>
-            {frequentWords && <BarChartWordFreq frequentWords={freqWordformattedData} />}
-            {/* Render SentenceDistributionBarChart component */}
-            <h3>Sentence Length Distribution Bar Chart</h3>
-            {sentenceDistribution && <BarChartSentenceDistribution sentenceDistribution={sentDistformattedData} />}
+            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+                <Typography variant="h4" gutterBottom>Word Count</Typography>
+                <AnimatedCountUp end={wordCount} />
+            </Paper>
+
+            {/* Render charts */}
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                    <Paper elevation={3} style={{ padding: '20px' }}>
+                        <Typography variant="h4" gutterBottom>Word Frequency Bar Chart</Typography>
+                        {frequentWords && <BarChartWordFreq frequentWords={freqWordformattedData} />}
+                    </Paper>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Paper elevation={3} style={{ padding: '20px' }}>
+                        <Typography variant="h4" gutterBottom>Sentence Length Distribution Bar Chart</Typography>
+                        {sentenceDistribution && <BarChartSentenceDistribution sentenceDistribution={sentDistformattedData} />}
+                    </Paper>
+                </Grid>
+                <Grid item xs={12}>
+                    <Paper elevation={3} style={{ padding: '20px' }}>
+                        <Typography variant="h4" gutterBottom>Sentiment Composition Bar Chart</Typography>
+                        {sentimentComposition && <SentimentBarChart sentimentComposition={sentimentCompositionFormattedData} />}
+                    </Paper>
+                </Grid>
+            </Grid>
         </div>
     );
 };
