@@ -4,10 +4,12 @@ from models import Text
 
 from collections import Counter
 import re
-from nltk.corpus import stopwords
 
+#Natural Languaage Tool Kit
 import nltk
-import matplotlib.pyplot as plt
+from nltk.corpus import stopwords
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
 
 # Function to find the most frequent words excluding stopwords
 def most_freq_words(text):
@@ -32,7 +34,7 @@ def word_count(text):
 
 def sentence_length_distribution(text):
     # Download the punkt tokenizer
-    nltk.download('punkt')
+    # nltk.download('punkt')
 
     # Tokenize the text into sentences
     sentences = nltk.sent_tokenize(text)
@@ -43,10 +45,15 @@ def sentence_length_distribution(text):
     return sentence_lengths
 
 def sentiment_analysis(text):
-    #overall sentiment
-    #neg words
-    #pos words
-    return 0
+    # Download the VADER lexicon
+    #nltk.download('vader_lexicon')
+    
+    # Load the VADER sentiment analyzer
+    vader = SentimentIntensityAnalyzer()
+
+    # Calculate sentiment scores for the text
+    sentiment_scores = vader.polarity_scores(text)
+    return sentiment_scores
 
 def outlier_sentence(text):
     return 0
@@ -67,13 +74,21 @@ def analyze_text(text_id):
     # Find most frequent words
     frequent_words = most_freq_words(text.text)
 
+    # Find frequency distribution of sentence lengths
     sentence_len_dist = sentence_length_distribution(text.text)
+
+    # Sentiment composition of text
+    sentiment = sentiment_analysis(text.text)
     
     return jsonify({
         "word_count": count_result,
         "most_frequent_words": frequent_words,
-        "sentence_length_distribution": sentence_len_dist})
+        "sentence_length_distribution": sentence_len_dist,
+        "sentiment_analysis": sentiment,})
 
+'''
+---------------------CRUD------------------------
+'''
 @app.route("/texts", methods=["GET"])
 def get_texts():
     texts = Text.query.all()
@@ -131,4 +146,3 @@ if __name__ == "__main__":
         db.create_all()
 
     app.run(debug=True)
-
