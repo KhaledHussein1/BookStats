@@ -32,9 +32,11 @@ const TextList = ({texts, updateText, updateCallback }) => {
 
             if (response.status === 200) {
                 console.log("Analysis successful:", data);
-                navigate('/analysis-results', { state: { wordCount: data.word_count,
+                navigate('/analysis-results', { state: 
+                                                { wordCount: data.word_count,
                                                 frequentWords: data.most_frequent_words,
-                                                sentenceDistribution: data.sentence_length_distribution } });
+                                                sentenceDistribution: data.sentence_length_distribution,
+                                                sentimentComposition: data.sentiment_analysis } });
                 //updateCallback()
             } else {
                 console.error("Failed to analyze.")
