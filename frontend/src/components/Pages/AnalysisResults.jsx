@@ -1,10 +1,15 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Grid, Paper, Typography } from "@mui/material";
-import AnimatedCountUp from "./AnimatedCountUp";
-import BarChartWordFreq from "./BarChartWordFreq";
-import BarChartSentenceDistribution from "./BarChartSentenceDistribution";
-import SentimentBarChart from './SentimentBarChart';
+import AnimatedCountUp from "../Charts/AnimatedCountUp";
+import BarChartWordFreq from "../Charts/BarChartWordFreq";
+import BarChartSentenceDistribution from "../Charts/BarChartSentenceDistribution";
+import SentimentBarChart from '../Charts/SentimentBarChart';
+import { 
+    formatFrequentWordsData,
+    formatSentenceDistributionData,
+    formatSentimentCompositionData 
+} from '../../utils/utils';
 
 const AnalysisResults = () => {
     const location = useLocation();
@@ -13,29 +18,6 @@ const AnalysisResults = () => {
     const frequentWords = location.state?.frequentWords;
     const sentenceDistribution = location.state?.sentenceDistribution;
     const sentimentComposition = location.state?.sentimentComposition;
-
-    // Transform frequentWords data to match the expected format
-    const freqWordformattedData = frequentWords.map(([text, frequency]) => ({ text, frequency }));
-
-    // Create a frequency distribution of sentence lengths
-    const sentenceLengths = sentenceDistribution.reduce((frequencyMap, length) => {
-        frequencyMap[length] = (frequencyMap[length] || 0) + 1;
-        return frequencyMap;
-    }, {});
-  
-    // Transform the frequency distribution of sentence lengths to match the expected format
-    const sentDistformattedData = Object.keys(sentenceLengths).map(length => ({
-        length: parseInt(length), // Convert key to number
-        frequency: sentenceLengths[length]
-    }));
-
-    // Transform the data into the expected format
-    const sentimentCompositionFormattedData = {
-        name: 'Sentiment Composition',
-        negative: sentimentComposition.neg,
-        positive: sentimentComposition.pos,
-        neutral: sentimentComposition.neu,
-    };
 
     return (
         <div>
@@ -51,19 +33,19 @@ const AnalysisResults = () => {
                 <Grid item xs={12} md={6}>
                     <Paper elevation={3} style={{ padding: '20px' }}>
                         <Typography variant="h4" gutterBottom>Word Frequency Bar Chart</Typography>
-                        {frequentWords && <BarChartWordFreq frequentWords={freqWordformattedData} />}
+                        {frequentWords && <BarChartWordFreq frequentWords={formatFrequentWordsData(frequentWords)} />}
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <Paper elevation={3} style={{ padding: '20px' }}>
                         <Typography variant="h4" gutterBottom>Sentence Length Distribution Bar Chart</Typography>
-                        {sentenceDistribution && <BarChartSentenceDistribution sentenceDistribution={sentDistformattedData} />}
+                        {sentenceDistribution && <BarChartSentenceDistribution sentenceDistribution={formatSentenceDistributionData(sentenceDistribution)} />}
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
                     <Paper elevation={3} style={{ padding: '20px' }}>
                         <Typography variant="h4" gutterBottom>Sentiment Composition Bar Chart</Typography>
-                        {sentimentComposition && <SentimentBarChart sentimentComposition={sentimentCompositionFormattedData} />}
+                        {sentimentComposition && <SentimentBarChart sentimentComposition={formatSentimentCompositionData(sentimentComposition)} />}
                     </Paper>
                 </Grid>
             </Grid>
