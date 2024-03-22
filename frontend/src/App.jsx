@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AnalysisResults from "./AnalysisResults";
+import AnalysisResults from "./components/Pages/AnalysisResults";
 import Home from './Home';
 import './App.css'
 
