@@ -40,7 +40,7 @@ def sentence_length_distribution(text):
     sentences = nltk.sent_tokenize(text)
 
     # Calculate the length of each sentence
-    sentence_lengths = [len(nltk.word_tokenize(sentence)) for sentence in sentences]
+    sentence_lengths = [len(re.findall(r'\b\w+\b', sentence)) for sentence in sentences]
     
     return sentence_lengths
 
@@ -61,9 +61,14 @@ def outlier_sentence(text):
 def readability(text):
     return 0
 
+def outlierSentences(text):
+    sentences = nltk.sent_tokenize(text)
+
+    # calculate the length 
+
 @app.route("/analysis/<int:text_id>", methods=["POST"])
 def analyze_text(text_id):
-    text = Text.query.get(text_id)
+    text = db.session.get(Text, text_id)
 
     if not text:
         return jsonify({"message": "Text not found."}), 404
