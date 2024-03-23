@@ -1,10 +1,10 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Grid, Paper, Typography } from "@mui/material";
-import AnimatedCountUp from "../Charts/AnimatedCountUp";
-import BarChartWordFreq from "../Charts/BarChartWordFreq";
-import BarChartSentenceDistribution from "../Charts/BarChartSentenceDistribution";
-import SentimentBarChart from '../Charts/SentimentBarChart';
+import AnimatedCountUp from "../charts/AnimatedCountUp";
+import BarChartWordFreq from "../charts/BarChartWordFreq";
+import BarChartSentenceDistribution from "../charts/BarChartSentenceDistribution";
+import SentimentBarChart from '../charts/SentimentBarChart';
 import { 
     formatFrequentWordsData,
     formatSentenceDistributionData,
@@ -14,10 +14,12 @@ import {
 const AnalysisResults = () => {
     const location = useLocation();
 
-    const wordCount = location.state?.wordCount;
-    const frequentWords = location.state?.frequentWords;
-    const sentenceDistribution = location.state?.sentenceDistribution;
-    const sentimentComposition = location.state?.sentimentComposition;
+    const wordCount = location.state?.word_count;
+    const frequentWords = location.state?.most_frequent_words;
+    const sentenceDistribution = location.state?.sentence_length_distribution;
+    const sentimentComposition = location.state?.sentiment_analysis;
+
+    console.log("Full Analysis Object:", location.state);
 
     return (
         <div>
