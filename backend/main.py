@@ -43,7 +43,7 @@ def sentence_length_distribution(text):
     sentence_lengths = [len(re.findall(r'\b\w+\b', sentence)) for sentence in sentences]
     
     return sentence_lengths
-
+  
 def sentiment_analysis(text):
     # Download the VADER lexicon
     #nltk.download('vader_lexicon')
