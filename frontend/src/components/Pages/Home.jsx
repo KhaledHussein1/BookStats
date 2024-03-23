@@ -1,5 +1,5 @@
-import TextList from './TextList';
-import TextForm from './TextForm'
+import TextList from '../textManagement/TextList';
+import TextForm from '../textManagement/TextForm';
 
 function Home({ texts = [], closeModal, openEditModal, openCreateModal, isModalOpen, currentText, onUpdate }) {
     return (

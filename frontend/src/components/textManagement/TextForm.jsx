@@ -1,4 +1,5 @@
 import {useState} from "react"
+import { createText, updateText } from "../../api/textService";
 
 const TextForm = ({ existingText = {}, updateCallback}) => {
     const [title, setTitle] = useState(existingText.title || "")
@@ -7,28 +8,24 @@ const TextForm = ({ existingText = {}, updateCallback}) => {
     const updating = Object.entries(existingText).length !== 0
 
     const onSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const data = {
             title,
             text
+        };
+
+        try {
+            if (updating) {
+                await updateText(existingText.id, data);
+            } else {
+                await createText(data);
+            }
+            updateCallback();
+        } catch (error) {
+            alert("An error occurred: " + error.message);
         }
-        const url = "http://127.0.0.1:5000/" + (updating ? `update_text/${existingText.id}`:"create_text")
-        const options = {
-            method: updating ? "PATCH" : "POST",
-            headers: {
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(data)
-        }
-        const response = await fetch(url, options)
-        if (response.status !== 201 && response.status != 200) {
-            const data = await response.json()
-            alert(data.message)
-        } else {
-            updateCallback()
-        }
-    }
+    };
 
     return <form onSubmit={onSubmit}>
         <div>
