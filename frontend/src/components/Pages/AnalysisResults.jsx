@@ -18,9 +18,11 @@ const AnalysisResults = () => {
     const frequentWords = location.state?.most_frequent_words;
     const sentenceDistribution = location.state?.sentence_length_distribution;
     const sentimentComposition = location.state?.sentiment_analysis;
+    const summaryStatistics = location.state?.summary_statistics_sentence_length;
 
     console.log("Full Analysis Object:", location.state);
-
+    //stats = [mean, median, mode_values, std, variance
+    const arr = [1, 2];
     return (
         <div>
             <Typography variant="h2" gutterBottom>LexiLytics</Typography>
@@ -28,6 +30,16 @@ const AnalysisResults = () => {
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Word Count</Typography>
                 <AnimatedCountUp end={wordCount} />
+            </Paper>
+
+            {/* Summary statistics display */}
+            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+                <Typography variant="h4" gutterBottom>Summary Statistics - Sentence Lengths</Typography>
+                <h2>Mean: {summaryStatistics[0]}</h2>
+                <h2>Median: {summaryStatistics[1]}</h2>
+                <h2>Mode Value(s): {summaryStatistics[2].join(', ')}</h2>
+                <h2>Standard Deviation: {summaryStatistics[3]}</h2>
+                <h2>Variance: {summaryStatistics[4]}</h2>
             </Paper>
 
             {/* Render charts */}
