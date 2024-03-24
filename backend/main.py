@@ -4,6 +4,7 @@ from models import Text
 
 from collections import Counter
 import re
+import numpy as np
 
 #Natural Languaage Tool Kit
 import nltk
@@ -55,16 +56,34 @@ def sentiment_analysis(text):
     sentiment_scores = vader.polarity_scores(text)
     return sentiment_scores
 
-def outlier_sentence(text):
-    return 0
-
 def readability(text):
     return 0
 
-def outlierSentences(text):
+def summary_statistics(text):
+    # tokenize the text into sentences
     sentences = nltk.sent_tokenize(text)
 
-    # calculate the length 
+    # calculate length of each sentence
+    sentence_lengths = [len(re.findall(r'\b\w+\b', sentence)) for sentence in sentences]\
+    
+    mean = np.mean(sentence_lengths)
+    std = np.std(sentence_lengths)
+    median = np.median(sentence_lengths)
+    variance = np.var(sentence_lengths)
+
+    # Get unique values and their counts
+    unique_values, counts = np.unique(sentence_lengths, return_counts=True)
+    # Find the index of the maximum count
+    max_count_index = np.argmax(counts)
+    # The mode(s) correspond to the unique value(s) with the maximum count
+    mode_values = unique_values[counts == counts[max_count_index]]
+
+    # Convert mode_values to a list
+    mode_values = mode_values.tolist()
+
+    stats = [mean, median, mode_values, std, variance]
+
+    return stats
 
 @app.route("/analysis/<int:text_id>", methods=["POST"])
 def analyze_text(text_id):
@@ -84,12 +103,16 @@ def analyze_text(text_id):
 
     # Sentiment composition of text
     sentiment = sentiment_analysis(text.text)
+
+    # Fundamental Summary Statistics of sentence lengths
+    summary_stats = summary_statistics(text.text) 
     
     return jsonify({
         "word_count": count_result,
         "most_frequent_words": frequent_words,
         "sentence_length_distribution": sentence_len_dist,
-        "sentiment_analysis": sentiment,})
+        "sentiment_analysis": sentiment,
+        "summary_statistics_sentence_length": summary_stats})
 
 '''
 ---------------------CRUD------------------------
