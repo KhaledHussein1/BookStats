@@ -15,12 +15,4 @@ export const formatSentenceDistributionData = (sentenceDistribution) => {
         frequency: sentenceLengths[length]
     }));
 };
-
-export const formatSentimentCompositionData = (sentimentComposition) => {
-    return {
-        name: 'Sentiment Composition',
-        negative: sentimentComposition.neg,
-        positive: sentimentComposition.pos,
-        neutral: sentimentComposition.neu,
-    };
-};
+  

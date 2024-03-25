@@ -4,11 +4,10 @@ import { Grid, Paper, Typography } from "@mui/material";
 import AnimatedCountUp from "../charts/AnimatedCountUp";
 import BarChartWordFreq from "../charts/BarChartWordFreq";
 import BarChartSentenceDistribution from "../charts/BarChartSentenceDistribution";
-import SentimentBarChart from '../charts/SentimentBarChart';
+import DoughnutChart from '../charts/DoughnutChart';
 import { 
     formatFrequentWordsData,
     formatSentenceDistributionData,
-    formatSentimentCompositionData 
 } from '../../utils/utils';
 
 const AnalysisResults = () => {
@@ -56,10 +55,10 @@ const AnalysisResults = () => {
                         {sentenceDistribution && <BarChartSentenceDistribution sentenceDistribution={formatSentenceDistributionData(sentenceDistribution)} />}
                     </Paper>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} md={6}>
                     <Paper elevation={3} style={{ padding: '20px' }}>
-                        <Typography variant="h4" gutterBottom>Sentiment Composition Bar Chart</Typography>
-                        {sentimentComposition && <SentimentBarChart sentimentComposition={formatSentimentCompositionData(sentimentComposition)} />}
+                        <Typography variant="h4" gutterBottom>Sentiment Analysis Doughnut Chart</Typography>
+                        {sentimentComposition && <DoughnutChart sentimentComposition={sentimentComposition} />}
                     </Paper>
                 </Grid>
             </Grid>
