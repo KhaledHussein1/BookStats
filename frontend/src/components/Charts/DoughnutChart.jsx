@@ -2,14 +2,9 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip } from 'chart.js';
 
-const MyDoughnutChart = ({ sentimentComposition }) => {
-    Chart.register(ArcElement);
-    Chart.register(Tooltip);
+Chart.register(ArcElement, Tooltip);
 
-    //Chart.overrides.doughnut.plugins.legend.display = true;
-    //Chart.overrides.doughnut.plugins.legend.position = 'bottom';
-    //Chart.overrides.doughnut.plugins.legend.labels.color = 'rgb(255, 99, 132)';
-
+const DoughnutChart = ({ sentimentComposition }) => {
     const data = {
         labels: ['Negative', 'Positive', 'Neutral'],
         datasets: [{
@@ -27,21 +22,27 @@ const MyDoughnutChart = ({ sentimentComposition }) => {
             hoverOffset: 4,
         }]
     };
-    
-    const options = {
-        plugins: {
-            tooltip: {
-                enabled: true,
-            },
-        }
+
+    const legendItems = data.labels.map((label, index) => (
+        <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+            <div style={{ width: '12px', height: '12px', backgroundColor: data.datasets[0].backgroundColor[index], marginRight: '5px' }}></div>
+            <span>{label}</span>
+        </div>
+    ));
+
+    Chart.overrides.doughnut = {
+        borderRadius: 10,
     };
 
+
     return (
-        <Doughnut 
-            data={data}
-            options={options}
-        />
+        <div>
+            <Doughnut data={data} />
+            <div style={{ marginTop: '10px' }}>
+                {legendItems}
+            </div>
+        </div>
     );
 };
 
-export default MyDoughnutChart;
+export default DoughnutChart;
