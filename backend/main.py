@@ -5,7 +5,7 @@ from models import Text
 from text_analysis import (
     most_freq_words, word_count, sentence_length_distribution, 
     sentiment_analysis, readability, summary_statistics, 
-    longest_shortest_sentences
+    longest_shortest_sentences, letter_count, sentence_count,
     )
 
 @app.route("/analysis/<int:text_id>", methods=["POST"])
@@ -17,6 +17,10 @@ def analyze_text(text_id):
     
     # Count words
     count_result = word_count(text.text)
+
+    letter_count_result = letter_count(text.text)
+
+    sentence_count_result = sentence_count(text.text)
 
     # Find most frequent words
     frequent_words = most_freq_words(text.text)
@@ -43,7 +47,10 @@ def analyze_text(text_id):
         "sentiment_analysis": sentiment,
         "summary_statistics_sentence_length": summary_stats,
         "longest_and_shortest_sentences": longest_shortest_sent,
-        "readability": readability_scores,})
+        "readability": readability_scores,
+        "sentence_count": sentence_count_result,
+        "letter_count": letter_count_result,
+        })
 
 '''
 ---------------------CRUD------------------------
