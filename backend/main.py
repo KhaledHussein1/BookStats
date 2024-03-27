@@ -32,6 +32,9 @@ def analyze_text(text_id):
 
     # Finds the shortest and longest sentences in the text
     longest_shortest_sent = longest_shortest_sentences(text.text)
+
+    # 16 diffferent readability measurements
+    readability_scores = readability(text.text)
     
     return jsonify({
         "word_count": count_result,
@@ -39,7 +42,8 @@ def analyze_text(text_id):
         "sentence_length_distribution": sentence_len_dist,
         "sentiment_analysis": sentiment,
         "summary_statistics_sentence_length": summary_stats,
-        "longest_and_shortest_sentences": longest_shortest_sent,})
+        "longest_and_shortest_sentences": longest_shortest_sent,
+        "readability": readability_scores,})
 
 '''
 ---------------------CRUD------------------------

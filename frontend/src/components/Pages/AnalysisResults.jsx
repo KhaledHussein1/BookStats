@@ -5,6 +5,7 @@ import AnimatedCountUp from "../charts/AnimatedCountUp";
 import BarChartWordFreq from "../charts/BarChartWordFreq";
 import BarChartSentenceDistribution from "../charts/BarChartSentenceDistribution";
 import SummaryStatisticsTable from "../tables/SummaryStatisticsTable";
+import ReadabilityTable from "../tables/ReadabilityTable";
 import DoughnutChart from '../charts/DoughnutChart';
 import { 
     formatFrequentWordsData,
@@ -20,27 +21,39 @@ const AnalysisResults = () => {
     const sentimentComposition = location.state?.sentiment_analysis;
     const summaryStatistics = location.state?.summary_statistics_sentence_length;
     const longAndShortSentences = location.state?.longest_and_shortest_sentences;
+    const readabilityScores = location.state?.readability;
 
     console.log("Full Analysis Object:", location.state);
     
     return (
         <div>
             <Typography variant="h2" gutterBottom align='center'>LexiLytics</Typography>
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
             {/* Animated count-up display */}
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Word Count</Typography>
                 <AnimatedCountUp end={wordCount} />
             </Paper>
-            </Grid>
-            <Grid item xs={12} md={8}>
-             {/* Summary statistics display */}
-             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
-                <Typography variant="h4" gutterBottom>Summary Statistics - Sentence Lengths</Typography>
-                {summaryStatistics && <SummaryStatisticsTable summaryStatistics={summaryStatistics} />}
-            </Paper>
-            </Grid>
+
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={5}>
+                {/* Summary statistics display */}
+                <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+                    <Typography variant="h4" gutterBottom>Sentence Length Summary Statistics</Typography>
+                    {summaryStatistics && <SummaryStatisticsTable summaryStatistics={summaryStatistics} />}
+                </Paper>
+                <Paper elevation={3} style={{ padding: '20px' }}>
+                        <Typography variant="h4" gutterBottom>Sentiment Analysis Doughnut Chart</Typography>
+                        {sentimentComposition && <DoughnutChart sentimentComposition={sentimentComposition} />}
+                    </Paper>
+                </Grid>
+
+                <Grid item xs={12} md={7}>
+                {/* Readability display */}
+                <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+                    <Typography variant="h4" gutterBottom>Readability Scores Table</Typography>
+                    {readabilityScores && <ReadabilityTable readabilityScores={readabilityScores} />}
+                </Paper>
+                </Grid>
             </Grid>
 
             {/* Shortest & Longest Sentences display */}
@@ -61,22 +74,16 @@ const AnalysisResults = () => {
 
             {/* Render charts */}
             <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={12}>
                     <Paper elevation={3} style={{ padding: '20px' }}>
                         <Typography variant="h4" gutterBottom>Word Frequency Bar Chart</Typography>
                         {frequentWords && <BarChartWordFreq frequentWords={formatFrequentWordsData(frequentWords)} />}
                     </Paper>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={12}>
                     <Paper elevation={3} style={{ padding: '20px' }}>
                         <Typography variant="h4" gutterBottom>Sentence Length Distribution Bar Chart</Typography>
                         {sentenceDistribution && <BarChartSentenceDistribution sentenceDistribution={formatSentenceDistributionData(sentenceDistribution)} />}
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <Paper elevation={3} style={{ padding: '20px' }}>
-                        <Typography variant="h4" gutterBottom>Sentiment Analysis Doughnut Chart</Typography>
-                        {sentimentComposition && <DoughnutChart sentimentComposition={sentimentComposition} />}
                     </Paper>
                 </Grid>
             </Grid>
