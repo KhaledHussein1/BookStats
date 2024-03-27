@@ -18,13 +18,13 @@ const AnalysisResults = () => {
     const sentenceDistribution = location.state?.sentence_length_distribution;
     const sentimentComposition = location.state?.sentiment_analysis;
     const summaryStatistics = location.state?.summary_statistics_sentence_length;
+    const longAndShortSentences = location.state?.longest_and_shortest_sentences;
 
     console.log("Full Analysis Object:", location.state);
-    //stats = [mean, median, mode_values, std, variance
-    const arr = [1, 2];
+    
     return (
         <div>
-            <Typography variant="h2" gutterBottom>LexiLytics</Typography>
+            <Typography variant="h2" gutterBottom align='center'>LexiLytics</Typography>
             {/* Animated count-up display */}
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Word Count</Typography>
@@ -39,6 +39,22 @@ const AnalysisResults = () => {
                 <h2>Mode Value(s): {summaryStatistics[2].join(', ')}</h2>
                 <h2>Standard Deviation: {summaryStatistics[3]}</h2>
                 <h2>Variance: {summaryStatistics[4]}</h2>
+            </Paper>
+
+            {/* Shortest & Longest Sentences display */}
+            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+                <Typography variant="h4" gutterBottom>Shortest Sentence(s)</Typography>
+                <ul>
+                    {longAndShortSentences[0].map((sentence,index) => (
+                        <li key={index} style={{ fontSize: '24px'}}>{sentence}</li>
+                    ))}
+                </ul>
+                <Typography variant="h4" gutterBottom>Longest Sentence(s)</Typography>
+                <ul>
+                    {longAndShortSentences[1].map((sentence,index) => (
+                        <li key={index} style={{ fontSize: '24px'}}>{sentence}</li>
+                    ))}
+                </ul>
             </Paper>
 
             {/* Render charts */}
