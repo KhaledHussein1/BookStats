@@ -85,6 +85,36 @@ def summary_statistics(text):
 
     return stats
 
+def longest_shortest_sentences(text):
+    # Tokenize the text into sentences
+    sentences = nltk.sent_tokenize(text)
+
+    # Find the longest and shortest sentence possible
+    longest_sentence = max(sentences, key=lambda x: len(re.findall(r'\b\w+\b', x)))
+    shortest_sentence = min(sentences, key=lambda x: len(re.findall(r'\b\w+\b', x)))
+
+    shortest_sent_size = len(re.findall(r'\b\w+\b', shortest_sentence))
+    longest_sent_size = len(re.findall(r'\b\w+\b', longest_sentence))
+
+    # Find the shortest sentences with the same length as the min 
+    shortest_sentences = [sentence for sentence in sentences if len(re.findall(r'\b\w+\b', sentence)) == shortest_sent_size]
+    shortest_set = set()
+    for sentence in shortest_sentences:
+        sentence_without_quotes = sentence.replace('"', '').replace("'", '').replace('“','')
+        shortest_set.add(sentence_without_quotes.strip())
+
+    # Find the longest sentences with the same length as the max
+    longest_sentences = [sentence for sentence in sentences if len(re.findall(r'\b\w+\b', sentence)) == longest_sent_size]
+    longest_set = set()
+    for sentence in longest_sentences:
+        sentence_without_quotes = sentence.replace('\n\n', ' ').replace("\n", ' ')
+        longest_set.add(sentence_without_quotes.strip())
+    
+    polar_sentences = [ list(shortest_set), list(longest_set)]
+
+    return polar_sentences
+
+
 @app.route("/analysis/<int:text_id>", methods=["POST"])
 def analyze_text(text_id):
     text = db.session.get(Text, text_id)
@@ -106,13 +136,17 @@ def analyze_text(text_id):
 
     # Fundamental Summary Statistics of sentence lengths
     summary_stats = summary_statistics(text.text) 
+
+    # Finds the shortest and longest sentences in the text
+    longest_shortest_sent = longest_shortest_sentences(text.text)
     
     return jsonify({
         "word_count": count_result,
         "most_frequent_words": frequent_words,
         "sentence_length_distribution": sentence_len_dist,
         "sentiment_analysis": sentiment,
-        "summary_statistics_sentence_length": summary_stats})
+        "summary_statistics_sentence_length": summary_stats,
+        "longest_and_shortest_sentences": longest_shortest_sent,})
 
 '''
 ---------------------CRUD------------------------
