@@ -28,12 +28,30 @@ def most_freq_words(text):
 
 def word_count(text):
     lexicon_count = textstat.lexicon_count(text, removepunct=True)
-    '''
-    - Another way of doing it, not sure which is more accurate. -
-    words = text.split()
-    word_count = len(words)
-    '''
+    
+    # Another way of doing it, not sure which is more accurate. -
+    # words = text.split()
+    # word_count = len(words)
+    
     return lexicon_count
+
+def sentence_count(text):
+    # Tokenize the text into sentences
+    sentences = nltk.sent_tokenize(text)
+    
+    # Count the number of sentences
+    num_sentences = len(sentences)
+    
+    return num_sentences
+
+def letter_count(text):
+    # Use regular expression to find all alphanumeric characters
+    letters = re.findall(r'[a-zA-Z]', text)
+    
+    # Count the number of letters
+    letter_count = len(letters)
+
+    return letter_count
 
 def sentence_length_distribution(text):
     # Download the punkt tokenizer
