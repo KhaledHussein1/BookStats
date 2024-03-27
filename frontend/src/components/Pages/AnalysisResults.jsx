@@ -4,6 +4,7 @@ import { Grid, Paper, Typography } from "@mui/material";
 import AnimatedCountUp from "../charts/AnimatedCountUp";
 import BarChartWordFreq from "../charts/BarChartWordFreq";
 import BarChartSentenceDistribution from "../charts/BarChartSentenceDistribution";
+import SummaryStatisticsTable from "../tables/SummaryStatisticsTable";
 import DoughnutChart from '../charts/DoughnutChart';
 import { 
     formatFrequentWordsData,
@@ -25,21 +26,22 @@ const AnalysisResults = () => {
     return (
         <div>
             <Typography variant="h2" gutterBottom align='center'>LexiLytics</Typography>
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
             {/* Animated count-up display */}
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Word Count</Typography>
                 <AnimatedCountUp end={wordCount} />
             </Paper>
-
-            {/* Summary statistics display */}
-            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+            </Grid>
+            <Grid item xs={12} md={8}>
+             {/* Summary statistics display */}
+             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Summary Statistics - Sentence Lengths</Typography>
-                <h2>Mean: {summaryStatistics[0]}</h2>
-                <h2>Median: {summaryStatistics[1]}</h2>
-                <h2>Mode Value(s): {summaryStatistics[2].join(', ')}</h2>
-                <h2>Standard Deviation: {summaryStatistics[3]}</h2>
-                <h2>Variance: {summaryStatistics[4]}</h2>
+                {summaryStatistics && <SummaryStatisticsTable summaryStatistics={summaryStatistics} />}
             </Paper>
+            </Grid>
+            </Grid>
 
             {/* Shortest & Longest Sentences display */}
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
