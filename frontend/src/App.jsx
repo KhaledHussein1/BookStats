@@ -45,7 +45,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Home texts={texts} openEditModal={openEditModal} openCreateModal={openCreateModal} isModalOpen={isModalOpen} currentText={currentText} onUpdate={onUpdate} />}
+          element={<Home texts={texts} openEditModal={openEditModal} openCreateModal={openCreateModal} isModalOpen={isModalOpen} currentText={currentText} onUpdate={onUpdate} closeModal={closeModal}/>}
         />
         <Route path="/analysis-results" element={<AnalysisResults />} />
       </Routes>
