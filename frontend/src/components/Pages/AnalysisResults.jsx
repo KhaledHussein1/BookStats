@@ -22,6 +22,8 @@ const AnalysisResults = () => {
     const summaryStatistics = location.state?.summary_statistics_sentence_length;
     const longAndShortSentences = location.state?.longest_and_shortest_sentences;
     const readabilityScores = location.state?.readability;
+    const letterCount = location.state?.letter_count;
+    const sentenceCount = location.state?.sentence_count;
 
     console.log("Full Analysis Object:", location.state);
     
@@ -32,6 +34,14 @@ const AnalysisResults = () => {
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Word Count</Typography>
                 <AnimatedCountUp end={wordCount} />
+            </Paper>
+            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+                <Typography variant="h4" gutterBottom>Letter Count</Typography>
+                <AnimatedCountUp end={letterCount} />
+            </Paper>
+            <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
+                <Typography variant="h4" gutterBottom>Sentence Count</Typography>
+                <AnimatedCountUp end={sentenceCount} />
             </Paper>
 
             <Grid container spacing={3}>
