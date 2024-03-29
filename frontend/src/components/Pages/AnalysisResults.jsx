@@ -28,9 +28,7 @@ const AnalysisResults = () => {
     console.log("Full Analysis Object:", location.state);
     
     return (
-        <div>
-            <Typography variant="h2" gutterBottom align='center'>LexiLytics</Typography>
-            
+        <div style={{ marginTop: '20px' }}>
             <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
             {/* Animated count-up display */}

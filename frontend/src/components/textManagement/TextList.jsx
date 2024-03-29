@@ -40,7 +40,6 @@ const TextList = ({texts, updateText, updateCallback }) => {
 
     return (
         <div>
-        <h2>LexiLytics</h2>
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>

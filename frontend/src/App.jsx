@@ -2,6 +2,7 @@ import { useState, useEffect} from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AnalysisResults from "./components/pages/AnalysisResults";
 import Home from './components/pages/Home';
+import AppBar from './components/navbar/NavBar';
 import './App.css'
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
 
   return (
     <Router>
+      <AppBar />
       <Routes>
         <Route
           path="/"
