@@ -1,5 +1,6 @@
 import {useState} from "react"
 import { createText, updateText } from "../../api/textService";
+import { Grid, Button, TextField, Typography } from "@mui/material";
 
 const TextForm = ({ existingText = {}, updateCallback}) => {
     const [title, setTitle] = useState(existingText.title || "")
@@ -27,27 +28,43 @@ const TextForm = ({ existingText = {}, updateCallback}) => {
         }
     };
 
-    return <form onSubmit={onSubmit}>
-        <div>
-            <label htmlFor="title">Title:</label>
-            <input 
-                type="text" 
-                id="title" 
-                value={title} 
+    return (
+        <form onSubmit={onSubmit}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                {updating ? "Update Text" : "Create Text"}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="title"
+                label="Title"
+                fullWidth
+                value={title}
                 onChange={(e) => setTitle(e.target.value)}
-            />
-        </div>
-        <div>
-            <label htmlFor="text">Text:</label>
-            <input 
-                type="text" 
-                id="text" 
-                value={text} 
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="text"
+                label="Text"
+                fullWidth
+                multiline
+                minRows={2}
+                maxRows={30}
+                value={text}
                 onChange={(e) => setText(e.target.value)}
-            />
-        </div>
-        <button type="submit">{updating ? "Update" : "Create"}</button>
-    </form>
-}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary">
+                {updating ? "Update" : "Create"}
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      );
+    };
 
 export default TextForm
