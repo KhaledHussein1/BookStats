@@ -2,6 +2,9 @@ import React, { useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { deleteText, analyzeText } from "../../api/textService";
 import { CircularProgress ,Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InsightsIcon from '@mui/icons-material/Insights';
+import EditIcon from '@mui/icons-material/Edit';
 
 const MAX_PREVIEW_LENGTH = 100;
 
@@ -53,11 +56,15 @@ const TextList = ({texts, updateText, updateCallback }) => {
                             <TableCell>{text.title}</TableCell>
                             <TableCell>{truncateText(text.text)}</TableCell>
                             <TableCell>
-                                <Button onClick={() => onAnalyze(text.id)} variant="outlined" disabled={loadingState[text.id]}>
+                                <Button onClick={() => onAnalyze(text.id)} variant="outlined" disabled={loadingState[text.id]} startIcon={<InsightsIcon />}>
                                     {loadingState[text.id] ? <CircularProgress size={24} /> : "Analyze"}
                                 </Button>
-                                <Button onClick={() => updateText(text)} variant="outlined">Update</Button>
-                                <Button onClick={() => onDelete(text.id)} variant="outlined">Delete</Button>
+                                <Button onClick={() => updateText(text)} variant="outlined" startIcon={<EditIcon />}>
+                                    Update
+                                </Button>
+                                <Button onClick={() => onDelete(text.id)} variant="outlined" startIcon={<DeleteIcon />}>
+                                    Delete
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}
