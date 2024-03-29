@@ -45,10 +45,8 @@ def sentence_count(text):
     return num_sentences
 
 def letter_count(text):
-    # Use regular expression to find all alphanumeric characters
-    letters = re.findall(r'[a-zA-Z]', text)
-    
-    # Count the number of letters
+    # Use regular expression to find all letters (including accented ones)
+    letters = re.findall(r'[a-zA-ZÀ-ÿ]', text)
     letter_count = len(letters)
 
     return letter_count

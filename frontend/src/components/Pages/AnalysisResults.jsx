@@ -30,19 +30,28 @@ const AnalysisResults = () => {
     return (
         <div>
             <Typography variant="h2" gutterBottom align='center'>LexiLytics</Typography>
+            
+            <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
             {/* Animated count-up display */}
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Word Count</Typography>
                 <AnimatedCountUp end={wordCount} />
             </Paper>
+            </Grid>
+            <Grid item xs={12} md={4}>
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Letter Count</Typography>
                 <AnimatedCountUp end={letterCount} />
             </Paper>
+            </Grid>
+            <Grid item xs={12} md={4}>
             <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
                 <Typography variant="h4" gutterBottom>Sentence Count</Typography>
                 <AnimatedCountUp end={sentenceCount} />
             </Paper>
+            </Grid>
+            </Grid>
 
             <Grid container spacing={3}>
                 <Grid item xs={12} md={5}>
