@@ -7,8 +7,12 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 function Home({ texts = [], closeModal, openEditModal, openCreateModal, isModalOpen, currentText, onUpdate }) {
     return (
       <>
+      <video autoPlay muted loop style={{ position: 'fixed', width: '99%', height: '90%', objectFit: 'cover', zIndex: '-1', filter: 'blur(7px)' }}>
+      <source src="/videos/book.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
       <Grid container spacing={2} justifyContent="center" style={{ marginTop: '10px' }}>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <TextList texts={texts} updateText={openEditModal} updateCallback={onUpdate} />
         </Grid>
       </Grid>
