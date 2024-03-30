@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { useNavigate } from 'react-router-dom';
 import { deleteText, analyzeText } from "../../api/textService";
-import { CircularProgress ,Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Typography, CircularProgress ,Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InsightsIcon from '@mui/icons-material/Insights';
 import EditIcon from '@mui/icons-material/Edit';
+import { blue } from '@mui/material/colors';
 
-const MAX_PREVIEW_LENGTH = 100;
+const MAX_PREVIEW_LENGTH = 110;
 
 const TextList = ({texts, updateText, updateCallback }) => {
     const navigate = useNavigate();
@@ -40,20 +41,30 @@ const TextList = ({texts, updateText, updateCallback }) => {
 
     return (
         <div>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ border: `7px solid ${blue[500]}` }}>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Title</TableCell>
-                        <TableCell>Content</TableCell>
-                        <TableCell>Actions</TableCell>
+                        <TableCell>
+                            <Typography variant="h5">Title</Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography variant="h5">Content</Typography>
+                        </TableCell>
+                        <TableCell>
+                            <Typography variant="h5">Actions</Typography>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {texts.map((text) => (
                         <TableRow key={text.id}>
-                            <TableCell>{text.title}</TableCell>
-                            <TableCell>{truncateText(text.text)}</TableCell>
+                            <TableCell>
+                            <Typography variant="body1">{text.title}</Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography variant="body1">{truncateText(text.text)}</Typography>
+                            </TableCell>
                             <TableCell>
                                 <Button onClick={() => onAnalyze(text.id)} variant="outlined" disabled={loadingState[text.id]} startIcon={<InsightsIcon />}>
                                     {loadingState[text.id] ? <CircularProgress size={24} /> : "Analyze"}
