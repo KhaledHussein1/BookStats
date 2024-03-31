@@ -14,7 +14,7 @@ const NavBar = () => {
   const handleLogout = () => {
     // Call your backend to logout and clear the session
     localStorage.removeItem('username'); // Remove username from localStorage
-    navigate('/login');  // Redirect to login
+    navigate('/');  // Redirect to login
   };
 
 
