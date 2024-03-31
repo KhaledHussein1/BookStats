@@ -5,6 +5,7 @@ import Home from './components/pages/Home';
 import AppBar from './components/navbar/NavBar';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
+import ProfilePage from './components/pages/ProfilePage';
 import './App.css';
 
 function App() {
@@ -56,6 +57,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         {/* Define route for the signup page */}
         <Route path="/register" element={<RegisterPage />} />
+
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
