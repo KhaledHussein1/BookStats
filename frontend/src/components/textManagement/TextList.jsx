@@ -13,6 +13,10 @@ const TextList = ({texts, updateText, updateCallback }) => {
     const navigate = useNavigate();
     const [loadingState, setLoadingState] = useState({});
 
+    const truncateText = (text) => {
+        return text.length > MAX_PREVIEW_LENGTH ? text.substring(0, MAX_PREVIEW_LENGTH) + '...' : text;
+    };
+
     const onDelete = async (id) => {
         try {
             await deleteText(id);
@@ -33,10 +37,6 @@ const TextList = ({texts, updateText, updateCallback }) => {
         } finally {
             setLoadingState(prevState => ({ ...prevState, [id]: false })); // Reset loading state for specific text
         }
-    };
-
-    const truncateText = (text) => {
-        return text.length > MAX_PREVIEW_LENGTH ? text.substring(0, MAX_PREVIEW_LENGTH) + '...' : text;
     };
 
     return (

@@ -1,10 +1,23 @@
 const BASE_URL = "http://127.0.0.1:5000";
 
+// CRUD operations with JWT
 export const fetchTexts = async () => {
+    const token = localStorage.getItem('token');
+
     try {
-        const response = await fetch(`${BASE_URL}/texts`);
+        const response = await fetch(`${BASE_URL}/texts`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
-        return data.texts;
+        return data || [];
     } catch (error) {
         console.error("Error fetching texts:", error);
         throw error;
@@ -12,18 +25,22 @@ export const fetchTexts = async () => {
 };
 
 export const createText = async (textData) => {
+    const token = localStorage.getItem('token');
+
     try {
         const response = await fetch(`${BASE_URL}/create_text`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(textData),
         });
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         return await response.json();
     } catch (error) {
         console.error("Error creating text:", error);
@@ -32,18 +49,22 @@ export const createText = async (textData) => {
 };
 
 export const updateText = async (textId, textData) => {
+    const token = localStorage.getItem('token');
+
     try {
         const response = await fetch(`${BASE_URL}/update_text/${textId}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify(textData),
         });
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         return await response.json();
     } catch (error) {
         console.error("Error updating text:", error);
@@ -52,14 +73,20 @@ export const updateText = async (textId, textData) => {
 };
 
 export const deleteText = async (textId) => {
+    const token = localStorage.getItem('token');
+
     try {
         const response = await fetch(`${BASE_URL}/delete_text/${textId}`, {
             method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
         });
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         return true;
     } catch (error) {
         console.error("Error deleting text:", error);
@@ -68,14 +95,21 @@ export const deleteText = async (textId) => {
 };
 
 export const analyzeText = async (textId) => {
+    const token = localStorage.getItem('token');
+
     try {
         const response = await fetch(`${BASE_URL}/analysis/${textId}`, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
+            },
         });
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message);
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         return await response.json();
     } catch (error) {
         console.error("Error analyzing text:", error);

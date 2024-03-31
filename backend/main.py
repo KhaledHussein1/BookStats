@@ -1,7 +1,7 @@
-from flask import request, jsonify, session
-from flask_login import login_user, logout_user, current_user, login_required
-from config import app, db, bcrypt
+from flask import request, jsonify
+from config import app, db
 from models import Text, User
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 from text_analysis import (
     most_freq_words, word_count, sentence_length_distribution, 
@@ -9,57 +9,32 @@ from text_analysis import (
     longest_shortest_sentences, letter_count, sentence_count,
     )
 
-# Initialize Flask-Login
-from flask_login import LoginManager
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-'''
---------------User Account Endpoints---------------
-'''
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
+# User registration
 @app.route('/register', methods=['POST'])
 def register():
     username = request.json.get('username')
     password = request.json.get('password')
-
     if not username or not password:
-        return jsonify({"message": "Username and password are required."}), 400
-    
+        return jsonify({"msg": "Missing username or password"}), 400
     if User.query.filter_by(username=username).first():
-        return jsonify({"message": "Username already exists."}), 400
-    
+        return jsonify({"msg": "Username already exists"}), 400
     user = User(username=username)
-    user.set_password(password)  # This now uses the set_password method
-
+    user.set_password(password)
     db.session.add(user)
     db.session.commit()
+    return jsonify({"msg": "User created successfully"}), 201
 
-    return jsonify({"message": "User created successfully."}), 201
-
+# User login
 @app.route('/login', methods=['POST'])
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
-
     user = User.query.filter_by(username=username).first()
+    if not user or not user.check_password(password):
+        return jsonify({"msg": "Bad username or password"}), 401
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token)
 
-    if user and user.check_password(password):  # Here you use check_password method
-        # Login logic here. You might want to set up the user session or return a token
-        login_user(user)  # Flask-Login's login_user to handle session
-        return jsonify({"message": "Login successful.", "username": username}), 200
-    else:
-        return jsonify({"message": "Invalid username or password."}), 401
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return jsonify({"message": "Logout successful."}), 200
 
 '''
 -------------------Analysis Endpoint-----------------------
@@ -111,14 +86,19 @@ def analyze_text(text_id):
 '''
 ---------------------CRUD------------------------
 '''
-@app.route("/texts", methods=["GET"])
+@app.route('/texts', methods=['GET'])
+@jwt_required()
 def get_texts():
-    texts = Text.query.all()
-    json_texts = list(map(lambda x:x.to_json(), texts))
-    return jsonify({"texts": json_texts})
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(username=current_user).first()
+    texts = Text.query.filter_by(user_id=user.id).all()
+    return jsonify([text.to_json() for text in texts])
 
 @app.route("/create_text", methods=["POST"])
+@jwt_required()
 def create_text():
+    current_username = get_jwt_identity()
+    user = User.query.filter_by(username=current_username).first()
     title = request.json.get("title")
     text = request.json.get("text")
 
@@ -128,7 +108,7 @@ def create_text():
             400,
         )
     
-    new_text = Text(title=title, text=text)
+    new_text = Text(title=title, text=text, user_id=user.id)
     try:
         db.session.add(new_text)
         db.session.commit()
@@ -137,31 +117,45 @@ def create_text():
     return jsonify({"message": "Text created!"}), 201
 
 @app.route("/update_text/<int:text_id>", methods=["PATCH"])
+@jwt_required()
 def update_text(text_id):
-    text = Text.query.get(text_id)
+    current_username = get_jwt_identity()
+    user = User.query.filter_by(username=current_username).first()
+    text = Text.query.filter_by(id=text_id, user_id=user.id).first()
 
     if not text:
-        return jsonify({"message": "Text not found."}), 404
+        return jsonify({"message": "Text not found or you don't have permission to update this text."}), 404
     
     data = request.json
     text.title = data.get("title", text.title)
     text.text = data.get("text", text.text)
+    
+    try:
+        db.session.commit()
+        return jsonify({"message": "Text updated."}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": "Update failed: " + str(e)}), 500
 
-    db.session.commit()
 
-    return jsonify({"message":"Text updated."}), 200
-
-@app.route("/delete_text/<int:user_id>", methods=["DELETE"])
-def delete_text(user_id):
-    text = Text.query.get(user_id)
+@app.route("/delete_text/<int:text_id>", methods=["DELETE"])
+@jwt_required()
+def delete_text(text_id):
+    current_username = get_jwt_identity()
+    user = User.query.filter_by(username=current_username).first()
+    text = Text.query.filter_by(id=text_id, user_id=user.id).first()
 
     if not text:
-        return jsonify({"message": "Text not found"}), 404
+        return jsonify({"message": "Text not found or you don't have permission to delete this text."}), 404
+    
+    try:
+        db.session.delete(text)
+        db.session.commit()
+        return jsonify({"message": "Text deleted."}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": "Delete failed: " + str(e)}), 500
 
-    db.session.delete(text)
-    db.session.commit()
-
-    return jsonify({"message": "Text deleted!"}), 200
 
 if __name__ == "__main__":
     with app.app_context():
