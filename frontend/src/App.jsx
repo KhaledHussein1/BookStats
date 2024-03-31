@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AnalysisResults from "./components/pages/AnalysisResults";
 import Home from './components/pages/Home';
 import AppBar from './components/navbar/NavBar';
-import './App.css'
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
+import './App.css';
 
 function App() {
   const [texts, setTexts] = useState([])
@@ -11,8 +13,8 @@ function App() {
   const [currentText, setCurrentText] = useState({})
 
   useEffect(() => {
-    fetchTexts()
-  }, [])
+    fetchTexts();
+  }, []);
 
   const fetchTexts = async () => {
     const response = await fetch("http://127.0.0.1:5000/texts")
@@ -50,6 +52,10 @@ function App() {
           element={<Home texts={texts} openEditModal={openEditModal} openCreateModal={openCreateModal} isModalOpen={isModalOpen} currentText={currentText} onUpdate={onUpdate} closeModal={closeModal}/>}
         />
         <Route path="/analysis-results" element={<AnalysisResults />} />
+        {/* Define route for the login page */}
+        <Route path="/login" element={<LoginPage />} />
+        {/* Define route for the signup page */}
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
   );
