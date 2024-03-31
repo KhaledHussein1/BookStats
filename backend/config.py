@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Change to your database :)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://username:password@hostname/database_name"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:&87TC4ANZtrWsypunz@localhost/lexilytics"
 app.config["SQLALCHEMY_TRACK_MODIFCATIONS"] = False
 
 db = SQLAlchemy(app)
