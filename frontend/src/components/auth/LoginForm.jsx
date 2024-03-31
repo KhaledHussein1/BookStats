@@ -17,11 +17,14 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(formData); // Call login API function
-      navigate('/'); // Redirect to home page after successful login
+      const response = await login(formData); // Assuming this is your login function
+      if (response) { // You may want to check for a specific condition to confirm login success
+        localStorage.setItem('username', formData.username); // Optionally store the username or a token
+        navigate('/profile'); // Redirect to profile page on successful login
+      }
     } catch (error) {
       console.error('Login failed:', error);
-      // Handle login error (e.g., display error message to user)
+      // Handle login error (e.g., display an error message)
     }
   };
 

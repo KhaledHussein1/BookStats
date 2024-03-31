@@ -1,6 +1,6 @@
 from flask import request, jsonify, session
 from flask_login import login_user, logout_user, current_user, login_required
-from config import app, db
+from config import app, db, bcrypt
 from models import Text, User
 
 from text_analysis import (
@@ -32,7 +32,9 @@ def register():
     if User.query.filter_by(username=username).first():
         return jsonify({"message": "Username already exists."}), 400
     
-    user = User(username=username, password=password)
+    user = User(username=username)
+    user.set_password(password)  # This now uses the set_password method
+
     db.session.add(user)
     db.session.commit()
 
@@ -45,20 +47,18 @@ def login():
 
     user = User.query.filter_by(username=username).first()
 
-    if not user or not user.password == password:
+    if user and user.check_password(password):  # Here you use check_password method
+        # Login logic here. You might want to set up the user session or return a token
+        login_user(user)  # Flask-Login's login_user to handle session
+        return jsonify({"message": "Login successful.", "username": username}), 200
+    else:
         return jsonify({"message": "Invalid username or password."}), 401
 
-    login_user(user)
-    session['logged_in'] = True
-
-    return jsonify({"message": "Login successful."}), 200
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    session.pop('logged_in', None)
-
     return jsonify({"message": "Logout successful."}), 200
 
 '''
