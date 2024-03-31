@@ -1,6 +1,7 @@
-from flask import request, jsonify
+from flask import request, jsonify, session
+from flask_login import login_user, logout_user, current_user, login_required
 from config import app, db
-from models import Text
+from models import Text, User
 
 from text_analysis import (
     most_freq_words, word_count, sentence_length_distribution, 
@@ -8,6 +9,61 @@ from text_analysis import (
     longest_shortest_sentences, letter_count, sentence_count,
     )
 
+# Initialize Flask-Login
+from flask_login import LoginManager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+'''
+--------------User Account Endpoints---------------
+'''
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+@app.route('/register', methods=['POST'])
+def register():
+    username = request.json.get('username')
+    password = request.json.get('password')
+
+    if not username or not password:
+        return jsonify({"message": "Username and password are required."}), 400
+    
+    if User.query.filter_by(username=username).first():
+        return jsonify({"message": "Username already exists."}), 400
+    
+    user = User(username=username, password=password)
+    db.session.add(user)
+    db.session.commit()
+
+    return jsonify({"message": "User created successfully."}), 201
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.json.get('username')
+    password = request.json.get('password')
+
+    user = User.query.filter_by(username=username).first()
+
+    if not user or not user.password == password:
+        return jsonify({"message": "Invalid username or password."}), 401
+
+    login_user(user)
+    session['logged_in'] = True
+
+    return jsonify({"message": "Login successful."}), 200
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    session.pop('logged_in', None)
+
+    return jsonify({"message": "Logout successful."}), 200
+
+'''
+-------------------Analysis Endpoint-----------------------
+'''
 @app.route("/analysis/<int:text_id>", methods=["POST"])
 def analyze_text(text_id):
     text = db.session.get(Text, text_id)
