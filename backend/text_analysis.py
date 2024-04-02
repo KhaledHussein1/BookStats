@@ -53,7 +53,10 @@ def letter_count(text):
 
 def sentence_length_distribution(text):
     # Download the punkt tokenizer
-    # nltk.download('punkt')
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
 
     # Tokenize the text into sentences
     sentences = nltk.sent_tokenize(text)
@@ -65,7 +68,10 @@ def sentence_length_distribution(text):
   
 def sentiment_analysis(text):
     # Download the VADER lexicon
-    #nltk.download('vader_lexicon')
+    try:
+        nltk.data.find('sentiment/vader_lexicon')
+    except LookupError:
+        nltk.download('vader_lexicon')
     
     # Load the VADER sentiment analyzer
     vader = SentimentIntensityAnalyzer()
