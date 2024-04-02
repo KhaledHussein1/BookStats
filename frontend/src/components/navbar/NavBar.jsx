@@ -30,12 +30,16 @@ const NavBar = () => {
     navigate('/register'); 
   };
 
+  const handleAboutClick = () => {
+    navigate('/about'); 
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button color="inherit" onClick={handleHomeClick} startIcon={<HomeIcon />}>Home</Button>
-          <Button color="inherit" startIcon={<InfoIcon />}>About</Button>
+          <Button color="inherit" onClick={handleAboutClick} startIcon={<InfoIcon />}>About</Button>
         </Box>
         <Typography variant="h4" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
           LexiLytics
