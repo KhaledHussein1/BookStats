@@ -13,7 +13,7 @@ function Home() {
 
   return (
     <>
-      <video autoPlay muted loop style={{ position: 'fixed', width: '100%', height: '100%', objectFit: 'cover', zIndex: '-1', filter: 'blur(5px)' }}>
+      <video autoPlay muted loop style={{ position: 'fixed', width: '99%', height: '100%', objectFit: 'cover', zIndex: '-1', filter: 'blur(5px)' }}>
         <source src="/videos/book.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video> 

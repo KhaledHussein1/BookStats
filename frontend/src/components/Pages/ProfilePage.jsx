@@ -44,8 +44,7 @@ const ProfilePage = () => {
 
   return (
     <Container>
-      <Typography variant="h4">Profile</Typography>
-      <Typography>Welcome, {username}!</Typography>
+      <Typography variant="h6" gutterBottom sx={{marginTop:3, marginBottom:3,}}>Welcome, {username}! 👋</Typography>
       <TextList texts={texts} updateText={openEditModal} updateCallback={onUpdate} />
       <ModalComponent isOpen={isModalOpen} onClose={closeModal}>
         <TextForm existingText={currentText} updateCallback={onUpdate} />

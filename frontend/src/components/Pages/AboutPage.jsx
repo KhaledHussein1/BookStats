@@ -63,7 +63,7 @@ const AboutPage = () => {
           <Typography variant="body1" paragraph style={{ fontSize: '1.1rem' }}>
             Ready to explore what your text has to say? Sign up and start your journey into 
             the fascinating world of text analysis. Unlock the hidden dimensions of language 
-            and discover the joy of language in a whole new way. 
+            and discover the joy of text analysis in a whole new way. 
           </Typography>
         </Paper>
       </Box>
