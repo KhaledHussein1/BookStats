@@ -31,7 +31,7 @@ const LoginForm = () => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
       <Paper elevation={3} sx={{ padding: 4 }}>
-        <Typography variant="h6" gutterBottom>Login</Typography>
+        <Typography variant="h6" gutterBottom textAlign='center'>Login to Account</Typography>
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
@@ -52,7 +52,7 @@ const LoginForm = () => {
           />
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
                 <Button type="submit" variant="contained" color="primary" sx={{ width: '50%' }}>
-                  Log In
+                  Login
                 </Button>
             </Grid>
         </form>

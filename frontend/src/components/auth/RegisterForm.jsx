@@ -34,7 +34,7 @@ const RegisterForm = () => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
       <Paper elevation={3} sx={{ padding: 4 }}>
-        <Typography variant="h6" gutterBottom>Sign Up</Typography>
+        <Typography variant="h6" gutterBottom textAlign='center'>Create an Account</Typography>
         <form onSubmit={handleSubmit}>
               <TextField
                 name="username"

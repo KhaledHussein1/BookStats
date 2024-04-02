@@ -1,19 +1,20 @@
 import React from 'react';
 import { useSpring, animated, config } from 'react-spring';
 import { Typography } from '@mui/material';
+import ArrowIcon from '@mui/icons-material/South';
 
 const generateSparkles = (count) => {
   return Array.from({ length: count }, (_, index) => ({
     id: index,
     delay: Math.random() * 1000, // Random delay for each sparkle
     duration: 2000 + Math.random() * 2000, // Random duration for each sparkle
-    top: '-38px', // Adjust if you want different vertical positions
-    left: `${10 + index * (80 / count)}%`, // Spread sparkles across the width
+    top: '-45px', // Adjust if you want different vertical positions
+    left: `${34 + index * (40 / count)}%`, // Spread sparkles across the width
   }));
 };
 
 const SparkleText = ({ children, variant, component, color, gutterBottom }) => {
-  const sparkles = generateSparkles(5); // Generate 5 sparkles
+  const sparkles = generateSparkles(4); // Generate 5 sparkles
   
   return (
     <Typography
@@ -42,7 +43,7 @@ const SparkleText = ({ children, variant, component, color, gutterBottom }) => {
               left: sparkle.left,
             }}
           >
-            ✨
+            <ArrowIcon/>
           </animated.span>
         );
       })}

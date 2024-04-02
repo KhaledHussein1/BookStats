@@ -63,7 +63,7 @@ const NavBar = () => {
           </Box>
         ) : (
           <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
-            <Button color="inherit" onClick={handleLoginClick} startIcon={<LoginIcon />}>Log in</Button>
+            <Button color="inherit" onClick={handleLoginClick} startIcon={<LoginIcon />}>Login</Button>
             <Button color="inherit" onClick={handleSignupClick} startIcon={<AccountCircleIcon />}>Sign Up</Button>
           </Box>
         )}
