@@ -8,7 +8,7 @@ const generateSparkles = (count) => {
     id: index,
     delay: Math.random() * 1000, // Random delay for each sparkle
     duration: 2000 + Math.random() * 2000, // Random duration for each sparkle
-    top: '-45px', // Adjust if you want different vertical positions
+    top: '-45px', // Adjust for different vertical positions
     left: `${34 + index * (40 / count)}%`, // Spread sparkles across the width
   }));
 };

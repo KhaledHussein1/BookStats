@@ -18,7 +18,6 @@ export const register = async (formData) => {
       }
       
       const data = await response.json();
-      // Assuming your API returns a similar token object on registration as it does on login
       localStorage.setItem('token', data.access_token); // Store the token
       localStorage.setItem('username', formData.username); // Store the username
   
