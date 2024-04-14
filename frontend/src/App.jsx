@@ -7,11 +7,14 @@ import RegisterPage from './components/pages/RegisterPage';
 import ProfilePage from './components/pages/ProfilePage';
 import AboutPage from './components/pages/AboutPage';
 import './App.css';
+import { Box } from '@mui/material';;
 
 function App() {
   return (
     <Router>
+      <Box sx={{ pt: 12 }}>
       <AppBar />
+      </Box>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/analysis-results" element={<AnalysisResults />} />

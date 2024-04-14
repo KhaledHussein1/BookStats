@@ -1,32 +1,21 @@
 import React from 'react';
 import { Paper, Container, Typography, Box, Grid, useTheme } from '@mui/material';
-import SparkleText from '../animation/SparkleText';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import SubjectIcon from '@mui/icons-material/Subject';
 import SearchIcon from '@mui/icons-material/Search';
+import Particles from '../animation/ParticlesHome';
 
 function Home() {
   const theme = useTheme();
 
   return (
-    <>
-      <video autoPlay muted loop style={{ position: 'fixed', width: '99%', height: '100%', objectFit: 'cover', zIndex: '-1', filter: 'blur(5px)' }}>
-        <source src="/videos/book.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video> 
+    <> 
+    <Particles />
       <Container>
         <Box my={10} sx={{ textAlign: 'center', position: 'relative' }}>
-        <SparkleText
-          variant="h4"
-          component="h2"
-          color="primary"
-          gutterBottom
-        >
-          Where Text Meets Insight
-        </SparkleText>
           <Grid container spacing={4} justifyContent="center" sx={{ marginTop: 4 }}>
             <Grid item xs={12} sm={6} md={4} >
               <Paper variant="elevation" elevation={24} sx={{minWidth:'300px', padding: '5px', backgroundColor: '#fafafa'}}>
@@ -68,6 +57,7 @@ function Home() {
         </Box>
       </Container>
     </>
+    
   );
 }
 

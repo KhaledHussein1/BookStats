@@ -38,7 +38,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" sx={{ zIndex: 1400 }}>
       <Toolbar>
       {isLoggedIn ? (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
