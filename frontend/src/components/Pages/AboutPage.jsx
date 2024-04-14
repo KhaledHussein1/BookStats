@@ -30,6 +30,8 @@ const AboutPage = () => {
             It’s a vibrant playground for your words, where every sentence, every word, and every letter 
             is an opportunity for discovery. We blend sophisticated linguistic analysis with a dash of fun, 
             making it as enjoyable for a casual reader as it is powerful for a professional researcher.
+            </Typography>
+            <Typography component="div" style={{ fontSize: '1.1rem' }}>
             <ul style={{ paddingLeft: '20px', listStyleType: 'circle' }}>
                 <li style={{ marginBottom: '10px' }}><strong><em>Peek Behind the Words:</em></strong> With our top-notch analysis, uncover the most frequent words hiding 
                     in your texts and see beyond the obvious.</li>
@@ -48,6 +50,8 @@ const AboutPage = () => {
             in-depth research project, LexiLytics is here to illuminate the path. We believe in the 
             power of understanding text—not just as a form of communication but as an art form 
             full of potential.
+            </Typography>
+            <Typography component="div" style={{ fontSize: '1.1rem' }}>
             <ul style={{ paddingLeft: '20px', listStyleType: 'circle' }}>
                 <li style={{ marginBottom: '10px', }}><strong><em>For the Curious:</em></strong> Dive into the world of text analysis with an intuitive interface that guides you through the wonders of 
                     linguistic metrics.e</li>
