@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Container, Typography, Box, Grid, useTheme } from '@mui/material';
+import { Paper, Container, Typography, Box, Grid } from '@mui/material';
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -9,8 +9,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import Particles from '../animation/ParticlesHome';
 
 function Home() {
-  const theme = useTheme();
-
   return (
     <> 
     <Particles />

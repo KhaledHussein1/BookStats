@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Typography, Box, Paper, useTheme, useMediaQuery } from '@mui/material';
+import Particles from '../animation/ParticlesHome';
 
 const AboutPage = () => {
   const theme = useTheme();
@@ -7,15 +8,16 @@ const AboutPage = () => {
 
   return (
     <Container>
-      <Box my={4} sx={{ textAlign: 'center' }}>
-        <Typography variant="h3" component="h1" color="primary" gutterBottom style={{ fontWeight: 600 }}>
+      <Particles />
+      <Box my={4} sx={{ textAlign: 'center', position: 'relative' }}>
+        <Typography variant="h3" component="h1" color="white" gutterBottom style={{ fontWeight: 600 }}>
           Welcome to LexiLytics!
         </Typography>
-        <Typography variant="h5" component="h2" color="textSecondary" gutterBottom>
+        <Typography variant="h5" component="h2" color="white" gutterBottom>
             Where Text Meets Insight
         </Typography>
       </Box>
-      <Box display="flex" flexDirection={isMobile ? 'column' : 'row'} justifyContent="center" alignItems="start">
+      <Box display="flex" sx={{ position: 'relative' }} flexDirection={isMobile ? 'column' : 'row'} justifyContent="center" alignItems="start">
         <Paper elevation={6} sx={{ p: 10, maxWidth: 1500, mx: 2, my: 2, backgroundColor: '#f0f0f0', borderLeft: '6px solid', borderColor: theme.palette.primary.main }}>
           
           <Typography variant="body1" paragraph style={{ fontSize: '1.1rem' }}>
@@ -60,9 +62,7 @@ const AboutPage = () => {
                 <li style={{ marginBottom: '10px' }}><strong><em>For the Storytellers:</em></strong> Explore the depth of your narratives, refine your style, and connect with your 
                     readers on a whole new level.</li>
             </ul>
-
           </Typography>
-
           <Typography variant="h5"  color="primary" gutterBottom style={{ fontWeight: 500, marginTop: theme.spacing(4)}}>Embark on Your Journey</Typography>
           <Typography variant="body1" paragraph style={{ fontSize: '1.1rem' }}>
             Ready to explore what your text has to say? Sign up and start your journey into 
