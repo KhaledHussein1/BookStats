@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:5000";
+const BASE_URL = "";
 
 // CRUD operations with JWT
 export const fetchTexts = async () => {
@@ -113,6 +113,26 @@ export const analyzeText = async (textId) => {
         return await response.json();
     } catch (error) {
         console.error("Error analyzing text:", error);
+        throw error;
+    }
+};
+
+export const demo = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/file-analysis`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error analyzing text from file:", error);
         throw error;
     }
 };

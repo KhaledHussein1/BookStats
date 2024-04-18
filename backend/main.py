@@ -40,6 +40,42 @@ def login():
 '''
 -------------------Analysis Endpoint-----------------------
 '''
+
+@app.route("/file-analysis", methods=["POST"])
+def analyze_text_from_file():
+    try:
+        # Read text from a file
+        with open('./static/book.txt', 'r', encoding='utf-8') as file:
+            text_content = file.read()
+        
+        # Proceed with analysis using the text from the file
+        count_result = word_count(text_content)
+        letter_count_result = letter_count(text_content)
+        sentence_count_result = sentence_count(text_content)
+        frequent_words = most_freq_words(text_content)
+        sentence_len_dist = sentence_length_distribution(text_content)
+        sentiment = sentiment_analysis(text_content)
+        summary_stats = summary_statistics(text_content)
+        longest_shortest_sent = longest_shortest_sentences(text_content)
+        readability_scores = readability(text_content)
+        
+        return jsonify({
+            "word_count": count_result,
+            "letter_count": letter_count_result,
+            "sentence_count": sentence_count_result,
+            "most_frequent_words": frequent_words,
+            "sentence_length_distribution": sentence_len_dist,
+            "sentiment_analysis": sentiment,
+            "summary_statistics_sentence_length": summary_stats,
+            "longest_and_shortest_sentences": longest_shortest_sent,
+            "readability": readability_scores
+        }), 200
+    except FileNotFoundError:
+        return jsonify({"message": "Text file not found."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/analysis/<int:text_id>", methods=["POST"])
 def analyze_text(text_id):
     text = db.session.get(Text, text_id)
@@ -83,6 +119,7 @@ def analyze_text(text_id):
         "sentence_count": sentence_count_result,
         "letter_count": letter_count_result,
         })
+
 
 '''
 ---------------------CRUD------------------------
